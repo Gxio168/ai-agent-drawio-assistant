@@ -1,0 +1,32 @@
+# Build outputs and installed dependencies
+**/target/
+**/node_modules/
+**/dist/
+**/dist-ssr/
+**/data/
+**/logs/
+*.log
+
+# Local environment and secrets
+.env
+.env.*
+!.env.example
+**/.env
+**/.env.*
+!**/.env.example
+
+# Local YAML configuration may contain passwords, API keys, or encryption keys.
+**/*.yml
+**/*.yaml
+!ai-agent-scaffold-lite-frontend/pnpm-lock.yaml
+
+**/.local-config*
+
+# Local copies of the original repositories' Git metadata
+.local-history/
+
+# Local editor and operating-system files
+.idea/
+.vscode/
+.DS_Store
+Thumbs.db

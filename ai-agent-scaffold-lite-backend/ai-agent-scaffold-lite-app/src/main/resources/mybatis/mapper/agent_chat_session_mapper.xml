@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.bugstack.ai.infrastructure.dao.AgentChatSessionMapper">
+
+    <resultMap id="agentChatSessionResult" type="cn.bugstack.ai.infrastructure.dao.po.AgentChatSessionPO">
+        <id column="id" property="id"/>
+        <result column="app_name" property="appName"/>
+        <result column="user_id" property="userId"/>
+        <result column="session_id" property="sessionId"/>
+        <result column="session_state" property="sessionState"/>
+        <result column="last_update_time" property="lastUpdateTime"/>
+    </resultMap>
+
+    <insert id="insert"
+            parameterType="cn.bugstack.ai.infrastructure.dao.po.AgentChatSessionPO"
+            useGeneratedKeys="true"
+            keyProperty="id">
+        INSERT INTO ai_agent_chat_session
+            (app_name, user_id, session_id, session_state, last_update_time)
+        VALUES
+            (#{appName}, #{userId}, #{sessionId}, #{sessionState}, #{lastUpdateTime})
+    </insert>
+
+    <select id="findOne" resultMap="agentChatSessionResult">
+        SELECT id, app_name, user_id, session_id, session_state, last_update_time
+        FROM ai_agent_chat_session
+        WHERE app_name = #{appName}
+          AND user_id = #{userId}
+          AND session_id = #{sessionId}
+    </select>
+
+    <select id="findOneForUpdate" resultMap="agentChatSessionResult">
+        SELECT id, app_name, user_id, session_id, session_state, last_update_time
+        FROM ai_agent_chat_session
+        WHERE app_name = #{appName}
+          AND user_id = #{userId}
+          AND session_id = #{sessionId}
+        FOR UPDATE
+    </select>
+
+    <select id="findByUser" resultMap="agentChatSessionResult">
+        SELECT id, app_name, user_id, session_id, last_update_time
+        FROM ai_agent_chat_session
+        WHERE app_name = #{appName}
+          AND user_id = #{userId}
+        ORDER BY last_update_time DESC
+    </select>
+
+    <update id="updateState" parameterType="cn.bugstack.ai.infrastructure.dao.po.AgentChatSessionPO">
+        UPDATE ai_agent_chat_session
+        SET session_state = #{sessionState},
+            last_update_time = #{lastUpdateTime}
+        WHERE id = #{id}
+    </update>
+
+    <delete id="deleteById">
+        DELETE FROM ai_agent_chat_session
+        WHERE id = #{id}
+    </delete>
+
+</mapper>

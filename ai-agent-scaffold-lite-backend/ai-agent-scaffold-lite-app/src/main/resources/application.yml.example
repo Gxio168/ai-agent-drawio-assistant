@@ -1,0 +1,9 @@
+spring:
+  config:
+    name: ai-agent-scaffold-lite-app
+  profiles:
+    active: ${SPRING_PROFILES_ACTIVE:dev}
+
+agent:
+  config:
+    encryption-key: ${AGENT_CONFIG_ENCRYPTION_KEY:}

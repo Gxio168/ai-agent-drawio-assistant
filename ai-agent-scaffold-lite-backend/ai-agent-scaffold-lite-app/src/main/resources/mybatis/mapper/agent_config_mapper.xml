@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.bugstack.ai.infrastructure.dao.AgentConfigMapper">
+    <select id="findApps" resultType="map">
+        SELECT agent_id AS agentId, app_name AS appName, agent_name AS agentName,
+               agent_desc AS agentDesc, enabled
+        FROM ai_agent_app_config ORDER BY create_time, agent_id
+    </select>
+    <select id="findEnabledApps" resultType="map">
+        SELECT agent_id AS agentId, app_name AS appName, agent_name AS agentName,
+               agent_desc AS agentDesc, enabled
+        FROM ai_agent_app_config WHERE enabled = 1 ORDER BY create_time, agent_id
+    </select>
+    <select id="findApp" resultType="map">
+        SELECT agent_id AS agentId, app_name AS appName, agent_name AS agentName,
+               agent_desc AS agentDesc, enabled
+        FROM ai_agent_app_config WHERE agent_id = #{agentId}
+    </select>
+    <insert id="insertApp">
+        INSERT INTO ai_agent_app_config(agent_id, app_name, agent_name, agent_desc, enabled)
+        VALUES(#{agentId}, #{appName}, #{agentName}, #{agentDesc}, #{enabled})
+    </insert>
+    <update id="updateApp">
+        UPDATE ai_agent_app_config SET app_name=#{appName}, agent_name=#{agentName},
+               agent_desc=#{agentDesc}, enabled=#{enabled} WHERE agent_id=#{agentId}
+    </update>
+    <delete id="deleteApp">DELETE FROM ai_agent_app_config WHERE agent_id=#{agentId}</delete>
+
+    <select id="findModule" resultType="map">
+        SELECT api_config_json AS apiConfig, chat_model_json AS chatModelConfig,
+               runner_config_json AS runnerConfig
+        FROM ai_agent_model_config WHERE agent_id=#{agentId}
+    </select>
+    <insert id="insertModule">
+        INSERT INTO ai_agent_model_config(agent_id, api_config_json, chat_model_json, runner_config_json)
+        VALUES(#{agentId}, #{apiConfig}, #{chatModelConfig}, #{runnerConfig})
+    </insert>
+    <update id="updateModule">
+        UPDATE ai_agent_model_config SET api_config_json=#{apiConfig}, chat_model_json=#{chatModelConfig},
+               runner_config_json=#{runnerConfig} WHERE agent_id=#{agentId}
+    </update>
+
+    <select id="findNodes" resultType="map">
+        SELECT node_type AS nodeType, config_json AS configJson FROM ai_agent_node_config
+        WHERE agent_id=#{agentId} ORDER BY sort_order, id
+    </select>
+    <delete id="deleteNodes">DELETE FROM ai_agent_node_config WHERE agent_id=#{agentId}</delete>
+    <insert id="insertNode">
+        INSERT INTO ai_agent_node_config(agent_id, node_type, node_name, sort_order, config_json)
+        VALUES(#{agentId}, #{nodeType}, #{nodeName}, #{sortOrder}, #{configJson})
+    </insert>
+
+    <select id="findTools" resultType="map">
+        SELECT tool_type AS toolType, config_json AS configJson FROM ai_agent_tool_config
+        WHERE agent_id=#{agentId} ORDER BY sort_order, id
+    </select>
+    <delete id="deleteTools">DELETE FROM ai_agent_tool_config WHERE agent_id=#{agentId}</delete>
+    <insert id="insertTool">
+        INSERT INTO ai_agent_tool_config(agent_id, tool_type, sort_order, config_json)
+        VALUES(#{agentId}, #{toolType}, #{sortOrder}, #{configJson})
+    </insert>
+</mapper>
