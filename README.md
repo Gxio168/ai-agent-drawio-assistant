@@ -2,6 +2,20 @@
 
 AI Agent 后端与流程图助手前端组成的单仓库。
 
+## 前端页面
+
+### 绘图与对话工作区
+
+工作区整合智能体和会话列表、Draw.io 流程图画布与 AI 对话面板。用户可以描述需求，由智能体生成流程图并加载到画布中。
+
+![Draw.io 绘图与 AI 对话工作区](docs/screenshots/frontend-workspace.png)
+
+### 智能体编排
+
+通过画布组合 Agent、串行、并行和循环工作流，并在右侧配置所选节点的名称、指令和输出信息。
+
+![智能体编排页面](docs/screenshots/agent-studio.png)
+
 ## 目录
 
 - `ai-agent-scaffold-lite-backend/`：Java 17、Spring Boot 3.4 和 Maven 多模块后端。
